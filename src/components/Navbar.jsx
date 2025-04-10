@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { BsMinecartLoaded } from "react-icons/bs";
@@ -8,13 +8,19 @@ import { useAppContext } from "../context/AppContext";
 
 const Navbar = () => {
    const [open, setOpen] = useState(false);
-   const { user, setUser, setShowUserLogin, navigate } = useAppContext();
+   const { user, setUser, setShowUserLogin, navigate, searchQuery, setSearchQuery } = useAppContext();
 
    const logout = async () => {
       setUser(null);
       navigate('/')
 
    }
+
+   useEffect(() =>{
+      if(searchQuery.length > 0){
+         navigate('/product')
+      }
+   },[])
 
    return (
       <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
@@ -31,7 +37,7 @@ const Navbar = () => {
             <NavLink to="/contacts">Contact</NavLink>
 
             <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
-               <input className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
+               <input onChange={(e) => setSearchQuery(e.target.value) } className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
                <img src={assets.search_icon} alt="" className="w-4 h-4" />
             </div>
 
@@ -46,7 +52,7 @@ const Navbar = () => {
                <img src={assets.profile_icon} alt="" className="w-10" />
                <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border  border-gray-200  py-2.5 w-40 rounded-md text-sm z-40 space-y-3 px-3">
                   <li onClick={() => navigate('/orders')} className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 duration-300 p-1.5 border border-white hover:border-gray-200">
-                  <BsMinecartLoaded />
+                     <BsMinecartLoaded />
                      <span>My Orders</span>
                   </li>
                   <li className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 duration-300 p-1.5 border border-white hover:border-gray-200">
