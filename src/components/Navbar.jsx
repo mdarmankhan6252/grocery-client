@@ -50,7 +50,7 @@ const Navbar = () => {
             </button> : <div className="relative group">
                <img src={assets.profile_icon} alt="" className="w-10" />
                <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border  border-gray-200  py-2.5 w-40 rounded-md text-sm z-40 space-y-3 px-3">
-                  <li onClick={() => navigate('/orders')} className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 duration-300 p-1.5 border border-white hover:border-gray-200">
+                  <li onClick={() => navigate('/my-orders')} className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 duration-300 p-1.5 border border-white hover:border-gray-200">
                      <BsMinecartLoaded />
                      <span>My Orders</span>
                   </li>

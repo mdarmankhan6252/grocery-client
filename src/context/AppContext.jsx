@@ -13,7 +13,7 @@ export const AppContextProvider = ({ children }) => {
    const [cartItems, setCartItems] = useState({});
    const [searchQuery, setSearchQuery] = useState({})
 
-   const currency = import.meta.VITE_CURRENCY;
+   const currency = import.meta.env.VITE_CURRENCY;
 
    //fetch the products 
    const [products, setProducts] = useState([]);
@@ -81,18 +81,6 @@ export const AppContextProvider = ({ children }) => {
       }
       return Math.floor(totalAmount * 100 / 100);
    }
-
-   // const getCartAmount = () => {
-   //    return Object.entries(cartItems).reduce((total, [itemId, quantity]) => {
-   //       if (quantity > 0) {
-   //          const itemInfo = products.find(product => product._id === itemId)
-   //          if(itemInfo){
-   //             total += itemInfo.offerPrice * quantity;
-   //          }
-   //       }
-   //       return total;
-   //    }, 0)
-   // }
 
 
    const value = {
