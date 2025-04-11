@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { useAppContext } from "../../context/AppContext";
 
@@ -9,7 +9,7 @@ const SellerLayout = () => {
    const sidebarLinks = [
       { name: "Add Product", path: "/seller", icon: assets.add_icon },
       { name: "Product List", path: "/seller/product-list", icon: assets.product_list_icon },
-      { name: "Orders", path: "/orders", icon: assets.order_icon },
+      { name: "Orders", path: "/seller/orders", icon: assets.order_icon },
    ];
 
    const logout = async () => {
@@ -17,7 +17,7 @@ const SellerLayout = () => {
    }
 
    return (
-      <>
+      <div>
          <div className="flex items-center justify-between px-4 md:px-8 border-b border-gray-300 py-3 bg-white">
             <Link to='/'>
                <img className="h-9" alt="logo" src={assets.logo} />
@@ -49,10 +49,14 @@ const SellerLayout = () => {
                   </NavLink>
                ))}
             </div>
+
+            <div>
+               <Outlet />
+            </div>
          </div>
 
 
-      </>
+      </div>
    );
 };
 
