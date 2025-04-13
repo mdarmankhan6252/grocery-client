@@ -2,13 +2,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
+import axios from 'axios'
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
    const navigate = useNavigate();
    const [user, setUser] = useState(null)
-   const [isSeller, setIsSeller] = useState(null)
+   const [isSeller, setIsSeller] = useState(false)
    const [showUserLogin, setShowUserLogin] = useState(false)
    const [cartItems, setCartItems] = useState({});
    const [searchQuery, setSearchQuery] = useState({})
@@ -18,11 +22,37 @@ export const AppContextProvider = ({ children }) => {
    //fetch the products 
    const [products, setProducts] = useState([]);
    const fetchProducts = async () => {
-      setProducts(dummyProducts)
+      try {
+         const { data } = await axios.get('/api/product/list');
+         if (data.success) {
+            setProducts(data.products)
+         } else {
+            toast.error(data.message)
+         }
+      } catch (error) {
+         toast.error(error.message)
+      }
+   }
+
+   //fetch seller  status
+
+   const fetchSeller = async () => {
+      try {
+         const { data } = await axios.get('/api/seller/is-auth')
+         if (data.success) {
+            setIsSeller(true)
+         } else {
+            setIsSeller(false)
+         }
+      } catch (err) {
+         setIsSeller(false)
+         console.log(err);
+      }
    }
 
    useEffect(() => {
-      fetchProducts()
+      fetchSeller();
+      fetchProducts();
    }, [])
 
    //add product to cart
@@ -100,7 +130,9 @@ export const AppContextProvider = ({ children }) => {
       searchQuery,
       setSearchQuery,
       getCartCount,
-      getCartAmount
+      getCartAmount,
+      axios,
+      fetchProducts
    };
 
    return <AppContext.Provider value={value}>
